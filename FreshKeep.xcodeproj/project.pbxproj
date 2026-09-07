@@ -1,0 +1,379 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000012A00000000000001 /* GroceryTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000012A00000000000001 /* GroceryTrackerApp.swift */; };
+		A10000022A00000000000002 /* ItemCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000022A00000000000002 /* ItemCategory.swift */; };
+		A10000032A00000000000003 /* StorageZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000032A00000000000003 /* StorageZone.swift */; };
+		A10000042A00000000000004 /* NotificationReminderOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000042A00000000000004 /* NotificationReminderOption.swift */; };
+		A10000052A00000000000005 /* GroceryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000052A00000000000005 /* GroceryItem.swift */; };
+		A10000062A00000000000006 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000062A00000000000006 /* AppTheme.swift */; };
+		A10000072A00000000000007 /* DateParserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000072A00000000000007 /* DateParserService.swift */; };
+		A10000082A00000000000008 /* OpenFoodFactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000082A00000000000008 /* OpenFoodFactsService.swift */; };
+		A10000092A00000000000009 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000092A00000000000009 /* NotificationManager.swift */; };
+		A100000A2A0000000000000A /* InventoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000A2A0000000000000A /* InventoryStore.swift */; };
+		A100000B2A0000000000000B /* ExpiringItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000B2A0000000000000B /* ExpiringItemCard.swift */; };
+		A100000C2A0000000000000C /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000C2A0000000000000C /* DashboardView.swift */; };
+		A100000D2A0000000000000D /* LiveScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000D2A0000000000000D /* LiveScannerView.swift */; };
+		A100000E2A0000000000000E /* ScannerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000E2A0000000000000E /* ScannerContainerView.swift */; };
+		A100000F2A0000000000000F /* AddEditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000F2A0000000000000F /* AddEditItemView.swift */; };
+		A10000102A00000000000010 /* ItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000102A000000000000010 /* ItemRowView.swift */; };
+		A10000112A00000000000011 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000112A000000000000011 /* ItemDetailView.swift */; };
+		A10000122A00000000000012 /* InventoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000122A000000000000012 /* InventoryListView.swift */; };
+		A10000132A00000000000013 /* AddEditZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000132A000000000000013 /* AddEditZoneView.swift */; };
+		A10000142A00000000000014 /* ZoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000142A000000000000014 /* ZoneDetailView.swift */; };
+		A10000152A00000000000015 /* ZonesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000152A000000000000015 /* ZonesListView.swift */; };
+		A10000162A00000000000016 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000162A000000000000016 /* SettingsView.swift */; };
+		A10000172A00000000000017 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000172A000000000000017 /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		910000012A00000000000001 /* FreshKeep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreshKeep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000012A00000000000001 /* GroceryTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryTrackerApp.swift; sourceTree = "<group>"; };
+		B10000022A00000000000002 /* ItemCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategory.swift; sourceTree = "<group>"; };
+		B10000032A00000000000003 /* StorageZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageZone.swift; sourceTree = "<group>"; };
+		B10000042A00000000000004 /* NotificationReminderOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationReminderOption.swift; sourceTree = "<group>"; };
+		B10000052A00000000000005 /* GroceryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryItem.swift; sourceTree = "<group>"; };
+		B10000062A00000000000006 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		B10000072A00000000000007 /* DateParserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateParserService.swift; sourceTree = "<group>"; };
+		B10000082A00000000000008 /* OpenFoodFactsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFoodFactsService.swift; sourceTree = "<group>"; };
+		B10000092A00000000000009 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		B100000A2A0000000000000A /* InventoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryStore.swift; sourceTree = "<group>"; };
+		B100000B2A0000000000000B /* ExpiringItemCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiringItemCard.swift; sourceTree = "<group>"; };
+		B100000C2A0000000000000C /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		B100000D2A0000000000000D /* LiveScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveScannerView.swift; sourceTree = "<group>"; };
+		B100000E2A0000000000000E /* ScannerContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerContainerView.swift; sourceTree = "<group>"; };
+		B100000F2A0000000000000F /* AddEditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditItemView.swift; sourceTree = "<group>"; };
+		B10000102A000000000000010 /* ItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRowView.swift; sourceTree = "<group>"; };
+		B10000112A000000000000011 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
+		B10000122A000000000000012 /* InventoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryListView.swift; sourceTree = "<group>"; };
+		B10000132A000000000000013 /* AddEditZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditZoneView.swift; sourceTree = "<group>"; };
+		B10000142A000000000000014 /* ZoneDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneDetailView.swift; sourceTree = "<group>"; };
+		B10000152A000000000000015 /* ZonesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZonesListView.swift; sourceTree = "<group>"; };
+		B10000162A000000000000016 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B10000172A000000000000017 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B10000182A000000000000018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F10000012A00000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C10000012A00000000000001 = {
+			isa = PBXGroup;
+			children = (
+				C10000022A00000000000002 /* GroceryTracker */,
+				C10000092A00000000000009 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C10000022A00000000000002 /* GroceryTracker */ = {
+			isa = PBXGroup;
+			children = (
+				B10000012A00000000000001 /* GroceryTrackerApp.swift */,
+				C10000032A00000000000003 /* Models */,
+				C10000042A00000000000004 /* Services */,
+				C10000052A00000000000005 /* Theme */,
+				C10000062A00000000000006 /* Views */,
+				C10000082A00000000000008 /* Resources */,
+			);
+			path = GroceryTracker;
+			sourceTree = "<group>";
+		};
+		C10000032A00000000000003 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B10000022A00000000000002 /* ItemCategory.swift */,
+				B10000032A00000000000003 /* StorageZone.swift */,
+				B10000042A00000000000004 /* NotificationReminderOption.swift */,
+				B10000052A00000000000005 /* GroceryItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C10000042A00000000000004 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B10000072A00000000000007 /* DateParserService.swift */,
+				B10000082A00000000000008 /* OpenFoodFactsService.swift */,
+				B10000092A00000000000009 /* NotificationManager.swift */,
+				B100000A2A0000000000000A /* InventoryStore.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C10000052A00000000000005 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				B10000062A00000000000006 /* AppTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		C10000062A00000000000006 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B10000172A000000000000017 /* ContentView.swift */,
+				B100000C2A0000000000000C /* DashboardView.swift */,
+				B100000B2A0000000000000B /* ExpiringItemCard.swift */,
+				B100000D2A0000000000000D /* LiveScannerView.swift */,
+				B100000E2A0000000000000E /* ScannerContainerView.swift */,
+				B100000F2A0000000000000F /* AddEditItemView.swift */,
+				B10000102A000000000000010 /* ItemRowView.swift */,
+				B10000112A000000000000011 /* ItemDetailView.swift */,
+				B10000122A000000000000012 /* InventoryListView.swift */,
+				B10000132A000000000000013 /* AddEditZoneView.swift */,
+				B10000142A000000000000014 /* ZoneDetailView.swift */,
+				B10000152A000000000000015 /* ZonesListView.swift */,
+				B10000162A000000000000016 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C10000082A00000000000008 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B10000182A000000000000018 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C10000092A00000000000009 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				910000012A00000000000001 /* FreshKeep.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E10000012A00000000000001 /* FreshKeep */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D10000022A00000000000002 /* Build configuration list for PBXNativeTarget "FreshKeep" */;
+			buildPhases = (
+				S10000012A00000000000001 /* Sources */,
+				F10000012A00000000000001 /* Frameworks */,
+				R10000012A00000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FreshKeep;
+			productName = FreshKeep;
+			productReference = 910000012A00000000000001 /* FreshKeep.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		010000012A00000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					E10000012A00000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = D10000012A00000000000001 /* Build configuration list for PBXProject "FreshKeep" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C10000012A00000000000001;
+			productRefGroup = C10000092A00000000000009 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E10000012A00000000000001 /* FreshKeep */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		R10000012A00000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		S10000012A00000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000012A00000000000001 /* GroceryTrackerApp.swift in Sources */,
+				A10000022A00000000000002 /* ItemCategory.swift in Sources */,
+				A10000032A00000000000003 /* StorageZone.swift in Sources */,
+				A10000042A00000000000004 /* NotificationReminderOption.swift in Sources */,
+				A10000052A00000000000005 /* GroceryItem.swift in Sources */,
+				A10000062A00000000000006 /* AppTheme.swift in Sources */,
+				A10000072A00000000000007 /* DateParserService.swift in Sources */,
+				A10000082A00000000000008 /* OpenFoodFactsService.swift in Sources */,
+				A10000092A00000000000009 /* NotificationManager.swift in Sources */,
+				A100000A2A0000000000000A /* InventoryStore.swift in Sources */,
+				A100000B2A0000000000000B /* ExpiringItemCard.swift in Sources */,
+				A100000C2A0000000000000C /* DashboardView.swift in Sources */,
+				A100000D2A0000000000000D /* LiveScannerView.swift in Sources */,
+				A100000E2A0000000000000E /* ScannerContainerView.swift in Sources */,
+				A100000F2A0000000000000F /* AddEditItemView.swift in Sources */,
+				A10000102A000000000000010 /* ItemRowView.swift in Sources */,
+				A10000112A000000000000011 /* ItemDetailView.swift in Sources */,
+				A10000122A000000000000012 /* InventoryListView.swift in Sources */,
+				A10000132A000000000000013 /* AddEditZoneView.swift in Sources */,
+				A10000142A000000000000014 /* ZoneDetailView.swift in Sources */,
+				A10000152A000000000000015 /* ZonesListView.swift in Sources */,
+				A10000162A000000000000016 /* SettingsView.swift in Sources */,
+				A10000172A000000000000017 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		W10000012A00000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		W10000022A00000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		W10000032A00000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = GroceryTracker/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshkeep.grocerytracker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		W10000042A00000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = GroceryTracker/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.freshkeep.grocerytracker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D10000012A00000000000001 /* Build configuration list for PBXProject "FreshKeep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				W10000012A00000000000001 /* Debug */,
+				W10000022A00000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D10000022A00000000000002 /* Build configuration list for PBXNativeTarget "FreshKeep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				W10000032A00000000000003 /* Debug */,
+				W10000042A00000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 010000012A00000000000001 /* Project object */;
+}
