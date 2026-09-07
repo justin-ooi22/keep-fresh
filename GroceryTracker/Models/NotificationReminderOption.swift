@@ -10,27 +10,27 @@ public enum NotificationReminderOption: String, CaseIterable, Codable, Identifia
     
     public var id: String { rawValue }
     
-    /// User friendly label
+    /// User friendly localized label
     public var title: String {
         switch self {
         case .oneWeek:
-            return "1 week before"
+            return String(localized: "1 week before")
         case .threeDays:
-            return "3 days before"
+            return String(localized: "3 days before")
         case .twoDays:
-            return "2 days before"
+            return String(localized: "2 days before")
         case .onTheDay:
-            return "On the day of expiry"
+            return String(localized: "On the day of expiry")
         }
     }
     
     /// Short chip label
     public var shortBadge: String {
         switch self {
-        case .oneWeek: return "-7d"
-        case .threeDays: return "-3d"
-        case .twoDays: return "-2d"
-        case .onTheDay: return "Day of"
+        case .oneWeek: return String(localized: "-7d")
+        case .threeDays: return String(localized: "-3d")
+        case .twoDays: return String(localized: "-2d")
+        case .onTheDay: return String(localized: "Day of")
         }
     }
     

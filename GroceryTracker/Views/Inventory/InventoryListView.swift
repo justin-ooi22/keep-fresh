@@ -19,6 +19,16 @@ public struct InventoryListView: View {
         case expired = "Expired"
         
         public var id: String { rawValue }
+        
+        public var localizedTitle: String {
+            switch self {
+            case .all: return String(localized: "All")
+            case .urgent: return String(localized: "Eat First")
+            case .soon: return String(localized: "Soon")
+            case .fresh: return String(localized: "Fresh")
+            case .expired: return String(localized: "Expired")
+            }
+        }
     }
     
     public enum SortOption: String, CaseIterable, Identifiable {
@@ -28,6 +38,15 @@ public struct InventoryListView: View {
         case zone = "Storage Location"
         
         public var id: String { rawValue }
+        
+        public var localizedTitle: String {
+            switch self {
+            case .expirySoonest: return String(localized: "Soonest Expiry")
+            case .expiryFurthest: return String(localized: "Furthest Expiry")
+            case .name: return String(localized: "Name (A-Z)")
+            case .zone: return String(localized: "Storage Location")
+            }
+        }
     }
     
     public init() {}
@@ -139,7 +158,7 @@ public struct InventoryListView: View {
                     Menu {
                         Picker("Sort By", selection: $sortOption) {
                             ForEach(SortOption.allCases) { option in
-                                Text(option.rawValue).tag(option)
+                                Text(option.localizedTitle).tag(option)
                             }
                         }
                     } label: {
@@ -189,7 +208,7 @@ public struct InventoryListView: View {
                         Button {
                             selectedStatusFilter = filter
                         } label: {
-                            Text(filter.rawValue)
+                            Text(filter.localizedTitle)
                                 .font(.subheadline.bold())
                                 .padding(.horizontal, 14)
                                 .padding(.vertical, 6)

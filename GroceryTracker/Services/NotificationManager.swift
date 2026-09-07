@@ -62,17 +62,17 @@ public final class NotificationManager: ObservableObject {
             
             switch option {
             case .oneWeek:
-                content.title = "📅 Expiry in 1 Week"
-                content.body = "\(item.name) in \(zoneName) expires in 7 days. Plan to use it soon!"
+                content.title = String(localized: "📅 Expiry in 1 Week")
+                content.body = String(localized: "\(item.name) in \(zoneName) expires in 7 days. Plan to use it soon!")
             case .threeDays:
-                content.title = "⚠️ Expiry in 3 Days"
-                content.body = "\(item.name) in \(zoneName) expires in 3 days. Check on it today!"
+                content.title = String(localized: "⚠️ Expiry in 3 Days")
+                content.body = String(localized: "\(item.name) in \(zoneName) expires in 3 days. Check on it today!")
             case .twoDays:
-                content.title = "⏳ Expiry in 2 Days"
-                content.body = "\(item.name) in \(zoneName) expires in 2 days. Don't let it go to waste!"
+                content.title = String(localized: "⏳ Expiry in 2 Days")
+                content.body = String(localized: "\(item.name) in \(zoneName) expires in 2 days. Don't let it go to waste!")
             case .onTheDay:
-                content.title = "🚨 Expires Today!"
-                content.body = "\(item.name) in \(zoneName) expires today! Use it first."
+                content.title = String(localized: "🚨 Expires Today!")
+                content.body = String(localized: "\(item.name) in \(zoneName) expires today! Use it first.")
             }
             
             content.userInfo = [
@@ -106,8 +106,8 @@ public final class NotificationManager: ObservableObject {
     /// Schedules a test notification to fire in 5 seconds
     public func sendTestNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "🔔 FreshKeep Test Alert"
-        content.body = "Notifications are working perfectly! You'll receive alerts before your groceries expire."
+        content.title = String(localized: "🔔 FreshKeep Test Alert")
+        content.body = String(localized: "Notifications are working perfectly! You'll receive alerts before your groceries expire.")
         content.sound = .default
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
@@ -118,9 +118,10 @@ public final class NotificationManager: ObservableObject {
     
     /// Reschedules all notifications across all items
     public func rescheduleAll(items: [GroceryItem], zones: [StorageZone]) {
+        let defaultZoneName = String(localized: "House")
         let zoneMap = Dictionary(uniqueKeysWithValues: zones.map { ($0.id, $0.name) })
         for item in items where !item.isConsumed {
-            let zoneName = zoneMap[item.zoneId] ?? "House"
+            let zoneName = zoneMap[item.zoneId] ?? defaultZoneName
             scheduleNotifications(for: item, zoneName: zoneName)
         }
     }

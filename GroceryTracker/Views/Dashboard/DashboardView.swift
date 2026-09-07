@@ -59,25 +59,25 @@ public struct DashboardView: View {
     private var metricsSection: some View {
         HStack(spacing: 12) {
             MetricCard(
-                title: "Active",
+                title: String(localized: "Active"),
                 value: "\(store.activeItems.count)",
                 icon: "basket.fill",
                 color: .blue
             )
             MetricCard(
-                title: "Eat Soon",
+                title: String(localized: "Eat Soon"),
                 value: "\(store.eatFirstItems.count)",
                 icon: "flame.fill",
                 color: .orange
             )
             MetricCard(
-                title: "Expired",
+                title: String(localized: "Expired"),
                 value: "\(store.expiredItems.count)",
                 icon: "exclamationmark.triangle.fill",
                 color: .red
             )
             MetricCard(
-                title: "Rooms",
+                title: String(localized: "Rooms"),
                 value: "\(store.zones.count)",
                 icon: "house.fill",
                 color: .purple
@@ -273,7 +273,7 @@ private struct MetricCard: View {
             Text(value)
                 .font(.title2.bold())
                 .foregroundColor(.primary)
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .font(.caption2)
                 .fontWeight(.medium)
                 .foregroundColor(.secondary)

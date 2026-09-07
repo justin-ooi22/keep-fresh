@@ -15,7 +15,7 @@ public struct ScannerContainerView: View {
     @State private var detectedDateString: String = ""
     @State private var isLookingUpBarcode: Bool = false
     @State private var showReviewSheet: Bool = false
-    @State private var statusMessage: String = "Point camera at barcode"
+    @State private var statusMessage: String = String(localized: "Point camera at grocery barcode")
     
     public init() {}
     
@@ -96,9 +96,9 @@ public struct ScannerContainerView: View {
         .onChange(of: scanMode) { _, newMode in
             switch newMode {
             case .barcode:
-                statusMessage = "Point camera at grocery barcode"
+                statusMessage = String(localized: "Point camera at grocery barcode")
             case .text:
-                statusMessage = "Point camera at printed expiration date"
+                statusMessage = String(localized: "Point camera at printed expiration date")
             }
         }
     }
@@ -226,12 +226,12 @@ public struct ScannerContainerView: View {
                     self.recognizedBrand = result.brand
                     self.recognizedCategory = result.suggestedCategory
                     self.isLookingUpBarcode = false
-                    self.statusMessage = "Found \(result.name)! Now scan date or tap Save."
+                    self.statusMessage = String(localized: "Found \(result.name)! Now scan date or tap Save.")
                 }
             } else {
                 await MainActor.run {
                     self.isLookingUpBarcode = false
-                    self.statusMessage = "Barcode \(barcode) detected. Enter details manually."
+                    self.statusMessage = String(localized: "Barcode \(barcode) detected. Enter details manually.")
                 }
             }
         }
@@ -241,13 +241,15 @@ public struct ScannerContainerView: View {
         if let parsedDate = DateParserService.shared.extractBestExpiryDate(from: text) {
             self.detectedExpiryDate = parsedDate
             self.detectedDateString = text
-            self.statusMessage = "Found Date: \(formattedDate(parsedDate))! Tap Save or scan barcode."
+            let formatted = formattedDate(parsedDate)
+            self.statusMessage = String(localized: "Found Date: \(formatted)! Tap Save or scan barcode.")
         }
     }
     
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        formatter.timeStyle = .none
         return formatter.string(from: date)
     }
 }

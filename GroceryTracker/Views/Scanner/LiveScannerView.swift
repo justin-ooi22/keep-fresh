@@ -36,7 +36,7 @@ public struct LiveScannerView: UIViewControllerRepresentable {
         // Simulator fallback
         let vc = UIViewController()
         let label = UILabel()
-        label.text = "Camera scanning requires a physical iPhone device.\nUse manual entry or test mock scan below."
+        label.text = String(localized: "Camera scanning requires a physical iPhone device.\nUse manual entry or test mock scan below.")
         label.textAlignment = .center
         label.numberOfLines = 0
         label.textColor = .secondaryLabel
@@ -53,7 +53,7 @@ public struct LiveScannerView: UIViewControllerRepresentable {
         guard DataScannerViewController.isSupported && DataScannerViewController.isAvailable else {
             let vc = UIViewController()
             let label = UILabel()
-            label.text = "Camera scanner not available on this device."
+            label.text = String(localized: "Camera scanner not available on this device.")
             label.textAlignment = .center
             label.textColor = .secondaryLabel
             vc.view = label
@@ -89,22 +89,25 @@ public struct LiveScannerView: UIViewControllerRepresentable {
         #endif
     }
     
-    /// Controls the camera torch wrapped inside device.lockForConfiguration() and device.unlockForConfiguration()
+    /// Controls the camera torch asynchronously on a background thread so AVCaptureDevice hardware lock does not block the main thread or freeze camera preview.
     private func updateTorch(isOn: Bool) {
-        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
-        do {
-            try device.lockForConfiguration()
-            device.torchMode = isOn ? .on : .off
-            device.unlockForConfiguration()
-        } catch {
-            print("Failed to configure device torch: \(error.localizedDescription)")
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
+            do {
+                try device.lockForConfiguration()
+                device.torchMode = isOn ? .on : .off
+                device.unlockForConfiguration()
+            } catch {
+                print("Failed to configure device torch on background thread: \(error.localizedDescription)")
+            }
         }
     }
     
     public static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Coordinator) {
         #if !targetEnvironment(simulator)
-        // Ensure torch is turned off when leaving scanner
-        if let device = AVCaptureDevice.default(for: .video), device.hasTorch {
+        // Ensure torch is turned off on background thread when leaving scanner
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
             do {
                 try device.lockForConfiguration()
                 if device.torchMode == .on {

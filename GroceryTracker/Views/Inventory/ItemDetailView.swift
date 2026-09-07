@@ -14,7 +14,6 @@ public struct ItemDetailView: View {
         self.item = item
     }
     
-    // Fetch live item from store if possible to reflect updates
     private var liveItem: GroceryItem {
         store.items.first(where: { $0.id == item.id }) ?? item
     }
@@ -195,9 +194,16 @@ public struct ItemDetailView: View {
                                     .foregroundColor(isPast ? .secondary : .primary)
                                 
                                 if let trigger = triggerDate {
-                                    Text(isPast ? "Triggered: \(formattedDate(trigger))" : "Scheduled: \(formattedDate(trigger)) at 9:00 AM")
-                                        .font(.caption2)
-                                        .foregroundColor(.secondary)
+                                    let dateStr = formattedDate(trigger)
+                                    if isPast {
+                                        Text("Triggered: \(dateStr)")
+                                            .font(.caption2)
+                                            .foregroundColor(.secondary)
+                                    } else {
+                                        Text("Scheduled: \(dateStr) at 9:00 AM")
+                                            .font(.caption2)
+                                            .foregroundColor(.secondary)
+                                    }
                                 }
                             }
                             
@@ -229,12 +235,12 @@ public struct ItemDetailView: View {
                 .font(.headline)
             
             VStack(spacing: 8) {
-                detailRow(label: "Category", value: liveItem.category.rawValue)
-                detailRow(label: "Quantity", value: "\(liveItem.quantity)")
-                detailRow(label: "Added On", value: formattedDate(liveItem.addedDate))
+                detailRow(label: String(localized: "Category"), value: liveItem.category.localizedName)
+                detailRow(label: String(localized: "Quantity"), value: "\(liveItem.quantity)")
+                detailRow(label: String(localized: "Added On"), value: formattedDate(liveItem.addedDate))
                 
                 if let barcode = liveItem.barcode {
-                    detailRow(label: "Barcode", value: barcode)
+                    detailRow(label: String(localized: "Barcode"), value: barcode)
                 }
                 
                 if !liveItem.notes.isEmpty {
@@ -299,7 +305,7 @@ public struct ItemDetailView: View {
     
     private func detailRow(label: String, value: String) -> some View {
         HStack {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Spacer()

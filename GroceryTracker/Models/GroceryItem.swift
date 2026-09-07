@@ -7,6 +7,15 @@ public enum ExpiryStatus: String, CaseIterable, Codable {
     case soon = "Expiring Soon"    // 3 to 7 days left
     case fresh = "Fresh"           // > 7 days left
     
+    public var localizedTitle: String {
+        switch self {
+        case .expired: return String(localized: "Expired")
+        case .critical: return String(localized: "Use Urgently")
+        case .soon: return String(localized: "Expiring Soon")
+        case .fresh: return String(localized: "Fresh")
+        }
+    }
+    
     public var color: Color {
         switch self {
         case .expired: return .red
@@ -99,23 +108,24 @@ public struct GroceryItem: Identifiable, Codable, Hashable {
         }
     }
     
-    /// Human readable countdown (e.g. "Expires in 2 days", "Expires today", "Expired 1 day ago")
+    /// Human readable localized countdown
     public var countdownDescription: String {
         let days = daysUntilExpiry
         if days < -1 {
-            return "Expired \(-days) days ago"
+            let count = -days
+            return String(localized: "Expired \(count) days ago")
         } else if days == -1 {
-            return "Expired yesterday"
+            return String(localized: "Expired yesterday")
         } else if days == 0 {
-            return "Expires today!"
+            return String(localized: "Expires today!")
         } else if days == 1 {
-            return "Expires tomorrow"
+            return String(localized: "Expires tomorrow")
         } else {
-            return "Expires in \(days) days"
+            return String(localized: "Expires in \(days) days")
         }
     }
     
-    /// Short date string for UI display
+    /// Localized short date string for UI display
     public var formattedExpiryDate: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium

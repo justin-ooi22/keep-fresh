@@ -16,6 +16,23 @@ public enum ItemCategory: String, CaseIterable, Codable, Identifiable {
 
     public var id: String { rawValue }
 
+    /// Localized display name
+    public var localizedName: String {
+        switch self {
+        case .dairy: return String(localized: "Dairy & Eggs")
+        case .produce: return String(localized: "Fruits & Vegetables")
+        case .meat: return String(localized: "Meat & Seafood")
+        case .bakery: return String(localized: "Bakery & Bread")
+        case .pantry: return String(localized: "Pantry & Canned")
+        case .frozen: return String(localized: "Frozen Foods")
+        case .beverages: return String(localized: "Beverages")
+        case .condiments: return String(localized: "Condiments & Sauces")
+        case .snacks: return String(localized: "Snacks & Sweets")
+        case .prepared: return String(localized: "Prepared Meals")
+        case .other: return String(localized: "Other")
+        }
+    }
+
     public var iconName: String {
         switch self {
         case .dairy: return "cup.and.saucer.fill"

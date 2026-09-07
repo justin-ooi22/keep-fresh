@@ -46,7 +46,7 @@ public struct AddEditItemView: View {
             _barcode = State(initialValue: prefilledBarcode)
             _category = State(initialValue: prefilledCategory)
             _expiryDate = State(initialValue: prefilledExpiryDate)
-            _selectedZoneId = State(initialValue: UUID()) // Will set to first available zone in onAppear
+            _selectedZoneId = State(initialValue: UUID())
             _quantity = State(initialValue: 1)
             _notes = State(initialValue: "")
             _selectedReminders = State(initialValue: [.threeDays, .onTheDay])
@@ -76,7 +76,7 @@ public struct AddEditItemView: View {
                     
                     Picker("Category", selection: $category) {
                         ForEach(ItemCategory.allCases) { cat in
-                            Label(cat.rawValue, systemImage: cat.iconName)
+                            Label(cat.localizedName, systemImage: cat.iconName)
                                 .tag(cat)
                         }
                     }
@@ -112,11 +112,11 @@ public struct AddEditItemView: View {
                     // Quick Date Shortcuts
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
-                            quickDateButton(title: "+3 Days", days: 3)
-                            quickDateButton(title: "+1 Week", days: 7)
-                            quickDateButton(title: "+2 Weeks", days: 14)
-                            quickDateButton(title: "+1 Month", days: 30)
-                            quickDateButton(title: "+6 Months", days: 180)
+                            quickDateButton(title: String(localized: "+3 Days"), days: 3)
+                            quickDateButton(title: String(localized: "+1 Week"), days: 7)
+                            quickDateButton(title: String(localized: "+2 Weeks"), days: 14)
+                            quickDateButton(title: String(localized: "+1 Month"), days: 30)
+                            quickDateButton(title: String(localized: "+6 Months"), days: 180)
                         }
                         .padding(.vertical, 4)
                     }
@@ -144,7 +144,8 @@ public struct AddEditItemView: View {
                                             .foregroundColor(.primary)
                                         
                                         if let triggerDate = option.targetTriggerDate(for: expiryDate) {
-                                            Text("Scheduled: \(formattedDate(triggerDate)) at 9:00 AM")
+                                            let dateString = formattedDate(triggerDate)
+                                            Text("Scheduled: \(dateString) at 9:00 AM")
                                                 .font(.caption2)
                                                 .foregroundColor(triggerDate < Date() ? .red : .secondary)
                                         }

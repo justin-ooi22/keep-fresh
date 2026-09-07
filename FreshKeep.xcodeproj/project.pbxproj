@@ -25,11 +25,12 @@
 		A10000102A00000000000010 /* ItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000102A000000000000010 /* ItemRowView.swift */; };
 		A10000112A00000000000011 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000112A000000000000011 /* ItemDetailView.swift */; };
 		A10000122A00000000000012 /* InventoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000122A000000000000012 /* InventoryListView.swift */; };
-		A10000132A00000000000013 /* AddEditZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000132A000000000000013 /* AddEditZoneView.swift */; };
-		A10000142A00000000000014 /* ZoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000142A000000000000014 /* ZoneDetailView.swift */; };
-		A10000152A00000000000015 /* ZonesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000152A000000000000015 /* ZonesListView.swift */; };
-		A10000162A00000000000016 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000162A000000000000016 /* SettingsView.swift */; };
-		A10000172A00000000000017 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000172A000000000000017 /* ContentView.swift */; };
+		A10000132A00000000000013 /* AddEditZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000132A00000000000013 /* AddEditZoneView.swift */; };
+		A10000142A00000000000014 /* ZoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000142A00000000000014 /* ZoneDetailView.swift */; };
+		A10000152A00000000000015 /* ZonesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000152A00000000000015 /* ZonesListView.swift */; };
+		A10000162A00000000000016 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000162A00000000000016 /* SettingsView.swift */; };
+		A10000172A00000000000017 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000172A00000000000017 /* ContentView.swift */; };
+		A10000192A000000000000019 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B10000192A000000000000019 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		B10000162A000000000000016 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B10000172A000000000000017 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B10000182A000000000000018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B10000192A000000000000019 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				B10000182A000000000000018 /* Info.plist */,
+				B10000192A000000000000019 /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
 				Base,
 			);
 			mainGroup = C10000012A00000000000001;
@@ -216,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000192A000000000000019 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
