@@ -241,6 +241,7 @@ public struct ScannerContainerView: View {
         if let parsedDate = DateParserService.shared.extractBestExpiryDate(from: text) {
             self.detectedExpiryDate = parsedDate
             self.detectedDateString = text
+            self.statusMessage = "Found Date: \(formattedDate(parsedDate))! Tap Save or scan barcode."
         }
     }
     

@@ -1,5 +1,6 @@
 import SwiftUI
 import VisionKit
+import AVFoundation
 
 /// Live camera scanner wrapping Apple's VisionKit DataScannerViewController.
 /// Provides live barcode recognition and text/date recognition.
@@ -59,13 +60,11 @@ public struct LiveScannerView: UIViewControllerRepresentable {
             return vc
         }
         
-        let recognizedDataTypes: Set<DataScannerViewController.RecognizedDataType>
-        switch scanMode {
-        case .barcode:
-            recognizedDataTypes = [.barcode(symbologies: [.ean13, .ean8, .upce, .code128, .qr])]
-        case .text:
-            recognizedDataTypes = [.text(languages: ["en"])]
-        }
+        // Include both barcode and text types simultaneously so both are continuously recognized
+        let recognizedDataTypes: Set<DataScannerViewController.RecognizedDataType> = [
+            .barcode(symbologies: [.ean13, .ean8, .upce, .code128, .qr]),
+            .text(languages: ["en", "de", "fr", "es", "it"])
+        ]
         
         let scanner = DataScannerViewController(
             recognizedDataTypes: recognizedDataTypes,
@@ -83,11 +82,37 @@ public struct LiveScannerView: UIViewControllerRepresentable {
     
     public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         #if !targetEnvironment(simulator)
-        if let scanner = uiViewController as? DataScannerViewController {
-            // Update torch
-            if isTorchOn != context.coordinator.lastTorchState {
-                context.coordinator.lastTorchState = isTorchOn
-                // VisionKit DataScannerViewController manages torch via AVCaptureDevice
+        if isTorchOn != context.coordinator.lastTorchState {
+            context.coordinator.lastTorchState = isTorchOn
+            updateTorch(isOn: isTorchOn)
+        }
+        #endif
+    }
+    
+    /// Controls the camera torch wrapped inside device.lockForConfiguration() and device.unlockForConfiguration()
+    private func updateTorch(isOn: Bool) {
+        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else { return }
+        do {
+            try device.lockForConfiguration()
+            device.torchMode = isOn ? .on : .off
+            device.unlockForConfiguration()
+        } catch {
+            print("Failed to configure device torch: \(error.localizedDescription)")
+        }
+    }
+    
+    public static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Coordinator) {
+        #if !targetEnvironment(simulator)
+        // Ensure torch is turned off when leaving scanner
+        if let device = AVCaptureDevice.default(for: .video), device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                if device.torchMode == .on {
+                    device.torchMode = .off
+                }
+                device.unlockForConfiguration()
+            } catch {
+                // Ignore error on dismantle
             }
         }
         #endif
@@ -104,7 +129,15 @@ public struct LiveScannerView: UIViewControllerRepresentable {
         }
         
         public func dataScanner(_ dataScanner: DataScannerViewController, didAdd addedItems: [RecognizedItem], allItems: [RecognizedItem]) {
-            for item in addedItems {
+            processItems(addedItems)
+        }
+        
+        public func dataScanner(_ dataScanner: DataScannerViewController, didUpdate updatedItems: [RecognizedItem], allItems: [RecognizedItem]) {
+            processItems(updatedItems)
+        }
+        
+        private func processItems(_ items: [RecognizedItem]) {
+            for item in items {
                 switch item {
                 case .barcode(let barcode):
                     if let payload = barcode.payloadStringValue, payload != lastScannedBarcode {
@@ -114,10 +147,11 @@ public struct LiveScannerView: UIViewControllerRepresentable {
                         }
                     }
                 case .text(let text):
-                    if text.transcript != lastScannedDateString {
-                        lastScannedDateString = text.transcript
+                    let transcript = text.transcript
+                    if transcript != lastScannedDateString {
+                        lastScannedDateString = transcript
                         DispatchQueue.main.async {
-                            self.parent.onTextRecognized(text.transcript)
+                            self.parent.onTextRecognized(transcript)
                         }
                     }
                 @unknown default:

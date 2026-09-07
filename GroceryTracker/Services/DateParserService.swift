@@ -1,36 +1,75 @@
 import Foundation
 
 /// Service dedicated to detecting, extracting, and parsing expiration dates from camera OCR text.
+/// Fully supports European date formats (DD.MM.YYYY, DD.MM.YY) and German/multilingual packaging phrasing.
 public final class DateParserService {
     public static let shared = DateParserService()
     
     private init() {}
     
-    /// Month name dictionary mapping abbreviations and full names to month numbers (1-12)
+    /// Month name dictionary mapping German, English, and common abbreviations to month numbers (1-12)
     private let monthLookup: [String: Int] = [
-        "jan": 1, "january": 1,
-        "feb": 2, "february": 2,
-        "mar": 3, "march": 3,
+        // German
+        "jan": 1, "januar": 1,
+        "feb": 2, "februar": 2,
+        "mär": 3, "maerz": 3, "märz": 3, "mar": 3,
         "apr": 4, "april": 4,
-        "may": 5,
-        "jun": 6, "june": 6,
-        "jul": 7, "july": 7,
+        "mai": 5,
+        "jun": 6, "juni": 6,
+        "jul": 7, "juli": 7,
         "aug": 8, "august": 8,
         "sep": 9, "sept": 9, "september": 9,
-        "oct": 10, "october": 10,
+        "okt": 10, "oktober": 10,
         "nov": 11, "november": 11,
+        "dez": 12, "dezember": 12,
+        
+        // English
+        "january": 1,
+        "february": 2,
+        "march": 3,
+        "may": 5,
+        "june": 6,
+        "july": 7,
+        "oct": 10, "october": 10,
         "dec": 12, "december": 12
     ]
     
-    /// Common expiration prefixes used on grocery packaging
-    private let expiryKeywords = [
-        "best before", "best by", "bb", "exp", "expiry", "expires", "use by", "b.b.", "exp.", "mfd", "valid"
+    /// Common expiration prefixes used on grocery packaging across Europe and North America
+    private let expiryKeywords: [String] = [
+        // German phrases
+        "mindestens haltbar bis ende",
+        "mindestens haltbar bis",
+        "mindestens haltbar",
+        "zu verbrauchen bis",
+        "verbrauchsdatum",
+        "verfalldatum",
+        "haltbar bis",
+        "abgelaufen am",
+        "mhd",
+        
+        // English phrases
+        "best before end",
+        "best before",
+        "best by",
+        "use by",
+        "bb",
+        "b.b.",
+        "exp",
+        "exp.",
+        "expiry",
+        "expires",
+        "valid until",
+        "valid to",
+        
+        // French & other European
+        "a consommer jusqu'au",
+        "a consommer de preference avant",
+        "da consumarsi entro"
     ]
     
-    /// Parses a string of scanned text (or array of text lines) and returns the most probable expiration date.
+    /// Parses scanned text (single string or multi-line block) and returns the most probable expiration date.
     public func extractBestExpiryDate(from text: String) -> Date? {
         let lines = text.components(separatedBy: .newlines)
-        
         var candidates: [(date: Date, confidence: Int)] = []
         
         for line in lines {
@@ -39,30 +78,133 @@ public final class DateParserService {
             
             let lower = trimmed.lowercased()
             let hasKeyword = expiryKeywords.contains { lower.contains($0) }
-            let baseScore = hasKeyword ? 50 : 10
+            let baseScore = hasKeyword ? 70 : 15
             
-            if let date = parseDateString(trimmed) {
-                // Ensure date is reasonable (e.g. within past 1 year to future 10 years)
+            // 1. Scan line for dates
+            let lineDates = extractDatesFromLine(trimmed)
+            for date in lineDates {
                 if isReasonableGroceryDate(date) {
                     candidates.append((date, baseScore + 20))
                 }
             }
         }
         
-        // Also run full regex over the entire text blob if line-by-line missed compound dates
+        // 2. If line-by-line yielded nothing (e.g. "Mindestens haltbar bis:" on line 1, "24.11.2026" on line 2),
+        // scan across the normalized full text block
         if candidates.isEmpty {
-            for match in scanRegexPatterns(in: text) {
-                if isReasonableGroceryDate(match) {
-                    candidates.append((match, 15))
+            let fullDates = extractDatesFromLine(text.replacingOccurrences(of: "\n", with: " "))
+            for date in fullDates {
+                if isReasonableGroceryDate(date) {
+                    candidates.append((date, 20))
                 }
             }
         }
         
-        // Return candidate with highest confidence score
+        // Return candidate with highest confidence
         return candidates.sorted { $0.confidence > $1.confidence }.first?.date
     }
     
-    /// Validates date is within reasonable perishable grocery timeline
+    /// Extracts all valid date matches from a given string
+    private func extractDatesFromLine(_ raw: String) -> [Date] {
+        var foundDates: [Date] = []
+        let calendar = Calendar.current
+        
+        // Clean up common OCR spacing around dots: e.g. "24 . 11 . 2026" -> "24.11.2026"
+        let normalized = raw.replacingOccurrences(of: #"\s*([.\/-])\s*"#, with: "$1", options: .regularExpression)
+        
+        // Pattern 1: European Numeric DD.MM.YYYY, DD/MM/YYYY, DD-MM-YYYY or DD.MM.YY
+        // Examples: 24.11.2026, 07.09.26, 15/10/2026, 01-12-25
+        let euroNumericRegex = #"\b(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})\b"#
+        if let regex = try? NSRegularExpression(pattern: euroNumericRegex) {
+            let nsString = normalized as NSString
+            let matches = regex.matches(in: normalized, range: NSRange(location: 0, length: normalized.utf16.count))
+            for match in matches where match.numberOfRanges == 4 {
+                let dayStr = nsString.substring(with: match.range(at: 1))
+                let monthStr = nsString.substring(with: match.range(at: 2))
+                let yearStr = nsString.substring(with: match.range(at: 3))
+                
+                if let day = Int(dayStr), let month = Int(monthStr), let rawYear = Int(yearStr) {
+                    let year = rawYear < 100 ? (2000 + rawYear) : rawYear
+                    
+                    // In Europe, day comes first (DD.MM.YYYY)
+                    if (1...31).contains(day) && (1...12).contains(month) {
+                        var comp = DateComponents()
+                        comp.year = year
+                        comp.month = month
+                        comp.day = day
+                        comp.hour = 12
+                        if let date = calendar.date(from: comp) {
+                            foundDates.append(date)
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Pattern 2: Alphanumeric DD. MMM. YYYY or DD MMM YYYY (German & English)
+        // Examples: 15. Okt. 2026, 15. Oktober 2026, 12 März 2026, 05-Dez-26, 20 OCT 2026
+        let alphaRegex = #"\b(\d{1,2})\.?[-\s]([A-Za-zäöüÄÖÜ]{3,10})\.?[-\s](\d{2,4})\b"#
+        if let regex = try? NSRegularExpression(pattern: alphaRegex) {
+            let nsString = normalized as NSString
+            let matches = regex.matches(in: normalized, range: NSRange(location: 0, length: normalized.utf16.count))
+            for match in matches where match.numberOfRanges == 4 {
+                let dayStr = nsString.substring(with: match.range(at: 1))
+                let monthWord = nsString.substring(with: match.range(at: 2)).lowercased()
+                let yearStr = nsString.substring(with: match.range(at: 3))
+                
+                if let day = Int(dayStr),
+                   let month = monthLookup[monthWord] ?? monthLookup[String(monthWord.prefix(3))],
+                   let rawYear = Int(yearStr) {
+                    let year = rawYear < 100 ? (2000 + rawYear) : rawYear
+                    if (1...31).contains(day) {
+                        var comp = DateComponents()
+                        comp.year = year
+                        comp.month = month
+                        comp.day = day
+                        comp.hour = 12
+                        if let date = calendar.date(from: comp) {
+                            foundDates.append(date)
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Pattern 3: Month & Year only (e.g., canned foods, "Mindestens haltbar bis Ende 11.2026" or "10/2027")
+        // Examples: 11.2026, 11/2026, 08.26
+        let monthYearRegex = #"(?:ende|end)?\s*[:.-]?\s*\b(\d{1,2})[.\/-](\d{2,4})\b"#
+        if let regex = try? NSRegularExpression(pattern: monthYearRegex, options: .caseInsensitive) {
+            let nsString = normalized as NSString
+            let matches = regex.matches(in: normalized, range: NSRange(location: 0, length: normalized.utf16.count))
+            for match in matches where match.numberOfRanges == 3 {
+                let monthStr = nsString.substring(with: match.range(at: 1))
+                let yearStr = nsString.substring(with: match.range(at: 2))
+                
+                if let month = Int(monthStr), let rawYear = Int(yearStr) {
+                    let year = rawYear < 100 ? (2000 + rawYear) : rawYear
+                    if (1...12).contains(month) && year >= 2024 && year <= 2040 {
+                        // Set to last day of that month
+                        var comp = DateComponents()
+                        comp.year = year
+                        comp.month = month
+                        comp.day = 1
+                        comp.hour = 12
+                        if let firstDay = calendar.date(from: comp),
+                           let range = calendar.range(of: .day, in: .month, for: firstDay) {
+                            comp.day = range.count
+                            if let endOfMonthDate = calendar.date(from: comp) {
+                                foundDates.append(endOfMonthDate)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return foundDates
+    }
+    
+    /// Validates date is within reasonable perishable grocery timeline (past 1 year to future 10 years)
     private func isReasonableGroceryDate(_ date: Date) -> Bool {
         let calendar = Calendar.current
         let now = Date()
@@ -71,73 +213,5 @@ public final class DateParserService {
             return false
         }
         return date >= oneYearAgo && date <= tenYearsFuture
-    }
-    
-    /// Attempts various standard date formatters
-    private func parseDateString(_ raw: String) -> Date? {
-        // Strip common prefixes like "BB", "EXP", "BEST BY", colons, etc.
-        var cleaned = raw
-        for kw in expiryKeywords {
-            let regex = try? NSRegularExpression(pattern: "(?i)\(kw)\\s*[:.-]?\\s*", options: [])
-            if let regex = regex {
-                cleaned = regex.stringByReplacingMatches(in: cleaned, options: [], range: NSRange(location: 0, length: cleaned.utf16.count), withTemplate: "")
-            }
-        }
-        cleaned = cleaned.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        
-        let formats = [
-            "dd/MM/yyyy", "dd-MM-yyyy", "dd.MM.yyyy",
-            "yyyy-MM-dd", "yyyy/MM/dd",
-            "MM/dd/yyyy", "MM-dd-yyyy",
-            "dd/MM/yy", "dd-MM-yy", "dd.MM.yy",
-            "MM/dd/yy", "MM.dd.yy",
-            "dd MMM yyyy", "dd-MMM-yyyy", "dd MMM yy", "dd-MMM-yy",
-            "MMM yyyy", "MM/yyyy", "MM/yy"
-        ]
-        
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        
-        for format in formats {
-            formatter.dateFormat = format
-            if let date = formatter.date(from: cleaned) {
-                return date
-            }
-        }
-        
-        return nil
-    }
-    
-    /// Regex scanning over entire block for common date patterns
-    private func scanRegexPatterns(in text: String) -> [Date] {
-        var foundDates: [Date] = []
-        
-        // Pattern 1: DD/MM/YYYY or DD.MM.YY or YYYY-MM-DD
-        let numericPattern = #"\b(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})\b"#
-        if let regex = try? NSRegularExpression(pattern: numericPattern) {
-            let nsString = text as NSString
-            let matches = regex.matches(in: text, range: NSRange(location: 0, length: text.utf16.count))
-            for match in matches {
-                let matchString = nsString.substring(with: match.range)
-                if let date = parseDateString(matchString) {
-                    foundDates.append(date)
-                }
-            }
-        }
-        
-        // Pattern 2: DD MON YYYY (e.g. 15 OCT 26 or 15-OCT-2026)
-        let alphaPattern = #"\b(\d{1,2})[\s\/-]?([A-Za-z]{3,9})[\s\/-]?(\d{2,4})\b"#
-        if let regex = try? NSRegularExpression(pattern: alphaPattern) {
-            let nsString = text as NSString
-            let matches = regex.matches(in: text, range: NSRange(location: 0, length: text.utf16.count))
-            for match in matches {
-                let matchString = nsString.substring(with: match.range)
-                if let date = parseDateString(matchString) {
-                    foundDates.append(date)
-                }
-            }
-        }
-        
-        return foundDates
     }
 }
