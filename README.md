@@ -1,4 +1,4 @@
-# FreshKeep — iOS Grocery Expiry & House Inventory Tracker
+# KeepFresh — iOS Grocery Expiry & House Inventory Tracker
 
 **FreshKeep** is an iOS application built with **SwiftUI**, **VisionKit**, and **UserNotifications** designed for homeowners with food stored across multiple rooms, refrigerators, freezers, and pantries.
 
